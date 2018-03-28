@@ -20,10 +20,9 @@ import XCTest
 import ziphy
 
 final class ZiphySearchResultsControllerTests: ZiphyTestCase {
-    
+
     var sut: ZiphySearchResultsController!
     var ziphyClient: ZiphyClient!
-    var mockZiphySearchResultsControllerDelegate: MockZiphySearchResultsControllerDelegate!
 
     override func setUp() {
         super.setUp()
@@ -33,43 +32,43 @@ final class ZiphySearchResultsControllerTests: ZiphyTestCase {
 
         sut = ZiphySearchResultsController(pageSize: 50, callbackQueue: DispatchQueue.main)
         sut.ziphyClient = ziphyClient
-
-        mockZiphySearchResultsControllerDelegate = MockZiphySearchResultsControllerDelegate()
-        sut.delegate = mockZiphySearchResultsControllerDelegate
     }
-    
+
     override func tearDown() {
         sut = nil
         ziphyClient = nil
-        mockZiphySearchResultsControllerDelegate = nil
-        
+
         super.tearDown()
     }
 
-    func testThatDelegateMethodIsCalledWhenCallingTrending(){
+    func testThatDelegateMethodIsCalledWhenTrending() {
         // GIVEN
         let expectation = self.expectation(description: "did return some results")
 
         // WHEN & THEN
-        let _ = sut.trending() { [weak self] (success, error) in
+        _ = sut.trending() { (success, ziphs, error) in
             XCTAssert(success)
-            XCTAssert((self?.mockZiphySearchResultsControllerDelegate.resultsDidCleanedCalled)!)
-            XCTAssertEqual(self?.mockZiphySearchResultsControllerDelegate.resultCount, 0)
+            XCTAssertGreaterThan(ziphs.count, 0)
 
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: 20) { (error) in
-        }
+        waitForExpectations(timeout: 20) { (error) in }
     }
-}
 
-class MockZiphySearchResultsControllerDelegate: ZiphySearchResultsControllerDelegate {
-    var resultsDidCleanedCalled = false
-    var resultCount = -1
+    func testThatDelegateMethodIsCalledWhenSearch() {
+        // GIVEN
+        let expectation = self.expectation(description: "did return some results")
 
-    func resultsDidCleaned(ziphySearchResultsController: ZiphySearchResultsController) {
-        resultsDidCleanedCalled = true
-        resultCount = ziphySearchResultsController.results.count
+        // WHEN & THEN
+        _ = sut.search(withSearchTerm: "apple") {(success, ziphs, error) in
+            XCTAssert(success)
+
+            XCTAssertGreaterThan(ziphs.count, 0)
+
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 20) { (error) in }
     }
 }
