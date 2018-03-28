@@ -20,7 +20,7 @@ import XCTest
 import ziphy
 
 final class ZiphySearchResultsControllerTests: ZiphyTestCase {
-    
+
     var sut: ZiphySearchResultsController!
     var ziphyClient: ZiphyClient!
     var mockZiphySearchResultsControllerDelegate: MockZiphySearchResultsControllerDelegate!
@@ -37,21 +37,21 @@ final class ZiphySearchResultsControllerTests: ZiphyTestCase {
         mockZiphySearchResultsControllerDelegate = MockZiphySearchResultsControllerDelegate()
         sut.delegate = mockZiphySearchResultsControllerDelegate
     }
-    
+
     override func tearDown() {
         sut = nil
         ziphyClient = nil
         mockZiphySearchResultsControllerDelegate = nil
-        
+
         super.tearDown()
     }
 
-    func testThatDelegateMethodIsCalledWhenCallingTrending(){
+    func testThatDelegateMethodIsCalledWhenTrending() {
         // GIVEN
         let expectation = self.expectation(description: "did return some results")
 
         // WHEN & THEN
-        let _ = sut.trending() { [weak self] (success, error) in
+        _ = sut.trending() { [weak self] (success, error) in
             XCTAssert(success)
             XCTAssert((self?.mockZiphySearchResultsControllerDelegate.resultsDidCleanedCalled)!)
             XCTAssertEqual(self?.mockZiphySearchResultsControllerDelegate.resultCount, 0)
@@ -59,8 +59,24 @@ final class ZiphySearchResultsControllerTests: ZiphyTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: 20) { (error) in
+        waitForExpectations(timeout: 20) { (error) in }
+    }
+
+    func testThatDelegateMethodIsCalledWhenSearch() {
+        // GIVEN
+        let expectation = self.expectation(description: "did return some results")
+
+        // WHEN & THEN
+        _ = sut.search(withSearchTerm: "apple") { [weak self] (success, error) in
+            XCTAssert(success)
+            XCTAssert((self?.mockZiphySearchResultsControllerDelegate.resultsDidCleanedCalled)!)
+            XCTAssertEqual(self?.mockZiphySearchResultsControllerDelegate.resultCount, 0)
+            XCTAssertGreaterThan((self?.sut.results.count)!, 0)
+
+            expectation.fulfill()
         }
+
+        waitForExpectations(timeout: 20) { (error) in }
     }
 }
 
