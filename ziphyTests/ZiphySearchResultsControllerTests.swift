@@ -84,7 +84,7 @@ class MockZiphySearchResultsControllerDelegate: ZiphySearchResultsControllerDele
     var resultsDidCleanedCalled = false
     var resultCount = -1
 
-    func resultsDidCleaned(ziphySearchResultsController: ZiphySearchResultsController) {
+    func didCleanResults(ziphySearchResultsController: ZiphySearchResultsController) {
         resultsDidCleanedCalled = true
         resultCount = ziphySearchResultsController.results.count
     }

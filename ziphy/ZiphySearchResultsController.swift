@@ -20,7 +20,7 @@
 import Foundation
 
 public protocol ZiphySearchResultsControllerDelegate: class {
-    func resultsDidCleaned(ziphySearchResultsController: ZiphySearchResultsController)
+    func didCleanResults(ziphySearchResultsController: ZiphySearchResultsController)
 }
 
 
@@ -48,7 +48,7 @@ public protocol ZiphySearchResultsControllerDelegate: class {
 
     fileprivate var paginationController: ZiphyPaginationController? {
         didSet {
-            delegate?.resultsDidCleaned(ziphySearchResultsController: self)
+            delegate?.didCleanResults(ziphySearchResultsController: self)
         }
     }
 
