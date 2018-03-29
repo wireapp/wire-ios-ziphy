@@ -20,9 +20,12 @@
 import Foundation
 
 public protocol ZiphySearchResultsControllerDelegate: class {
+
+    /// When the results will be wiped, e.g. when a new search starts, this method is called to accounce UI to update
+    ///
+    /// - Parameter ziphySearchResultsController: ZiphySearchResultsController of the results
     func didCleanResults(ziphySearchResultsController: ZiphySearchResultsController)
 }
-
 
 @objc public class ZiphySearchResultsController : NSObject {
     
@@ -48,6 +51,7 @@ public protocol ZiphySearchResultsControllerDelegate: class {
 
     fileprivate var paginationController: ZiphyPaginationController? {
         didSet {
+            // every time paginationController is set, tell the UI to refresh
             delegate?.didCleanResults(ziphySearchResultsController: self)
         }
     }
