@@ -14,7 +14,6 @@
 		DB3A68591B18970F00900CF0 /* ZiphyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3A68581B18970F00900CF0 /* ZiphyUtils.swift */; };
 		DB61EEA01B3AFB00001F4851 /* ZiphyRequestGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB61EE9F1B3AFB00001F4851 /* ZiphyRequestGenerator.swift */; };
 		DB772FB61B67D3AC0037CCAA /* Ziph.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB772FB51B67D3AC0037CCAA /* Ziph.swift */; };
-		DB8CB9EA1B171A5300A95A21 /* ZiphyImageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8CB9E91B171A5300A95A21 /* ZiphyImageFetcher.swift */; };
 		DBA7A1241B306144005BFF96 /* ZiphyLogging.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA7A1231B306144005BFF96 /* ZiphyLogging.swift */; };
 		DBCFF4FA1B6A93150019AEDC /* ZiphyPaginationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCFF4F91B6A93150019AEDC /* ZiphyPaginationController.swift */; };
 		DBF3805F1B15C0B800369FB7 /* ziphy.h in Headers */ = {isa = PBXBuildFile; fileRef = DBF3805E1B15C0B800369FB7 /* ziphy.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -62,7 +61,6 @@
 		DB3A68581B18970F00900CF0 /* ZiphyUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZiphyUtils.swift; sourceTree = "<group>"; };
 		DB61EE9F1B3AFB00001F4851 /* ZiphyRequestGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZiphyRequestGenerator.swift; sourceTree = "<group>"; };
 		DB772FB51B67D3AC0037CCAA /* Ziph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ziph.swift; sourceTree = "<group>"; };
-		DB8CB9E91B171A5300A95A21 /* ZiphyImageFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZiphyImageFetcher.swift; sourceTree = "<group>"; };
 		DBA7A1231B306144005BFF96 /* ZiphyLogging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZiphyLogging.swift; sourceTree = "<group>"; };
 		DBCFF4F91B6A93150019AEDC /* ZiphyPaginationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZiphyPaginationController.swift; sourceTree = "<group>"; };
 		DBF380591B15C0B800369FB7 /* ziphy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ziphy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -174,7 +172,6 @@
 				DBF380791B15D27B00369FB7 /* GiphyModel */,
 				DBF3805E1B15C0B800369FB7 /* ziphy.h */,
 				DBF380751B15C2D700369FB7 /* ZiphyClient.swift */,
-				DB8CB9E91B171A5300A95A21 /* ZiphyImageFetcher.swift */,
 				DBCFF4F91B6A93150019AEDC /* ZiphyPaginationController.swift */,
 				DB29C9A11B6BD4170072D14E /* ZiphySearchResultsController.swift */,
 				DBF3805C1B15C0B800369FB7 /* Supporting Files */,
@@ -340,7 +337,6 @@
 				DBA7A1241B306144005BFF96 /* ZiphyLogging.swift in Sources */,
 				DB29C9A21B6BD4170072D14E /* ZiphySearchResultsController.swift in Sources */,
 				DBCFF4FA1B6A93150019AEDC /* ZiphyPaginationController.swift in Sources */,
-				DB8CB9EA1B171A5300A95A21 /* ZiphyImageFetcher.swift in Sources */,
 				DBF380761B15C2D700369FB7 /* ZiphyClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
