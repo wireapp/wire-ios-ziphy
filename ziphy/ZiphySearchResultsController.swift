@@ -19,7 +19,13 @@
 
 import Foundation
 
+public protocol ZiphySearchResultsControllerDelegate: class {
 
+    /// When the results will be wiped, e.g. when a new search starts, this method is called to accounce UI to update
+    ///
+    /// - Parameter ziphySearchResultsController: ZiphySearchResultsController of the results
+    func didCleanResults(ziphySearchResultsController: ZiphySearchResultsController)
+}
 
 @objc public class ZiphySearchResultsController : NSObject {
     
@@ -42,8 +48,15 @@ import Foundation
     
         return self.paginationController?.totalPagesFetched ?? 0
     }
-    
-    fileprivate var paginationController: ZiphyPaginationController?
+
+    fileprivate var paginationController: ZiphyPaginationController? {
+        didSet {
+            // every time paginationController is set, tell the UI to refresh
+            delegate?.didCleanResults(ziphySearchResultsController: self)
+        }
+    }
+
+    public weak var delegate: ZiphySearchResultsControllerDelegate?
     fileprivate (set) open var pageSize:Int
     fileprivate (set) open var maxImageSize:Int
     fileprivate let imageCache = NSCache<NSString, NSData>()
