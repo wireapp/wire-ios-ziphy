@@ -33,6 +33,8 @@ public class ZiphyPaginationController {
     
     open var fetchBlock:FetchBlock?
     open var completionBlock:SuccessOrErrorCallback?
+
+    public init() {}
     
     open func fetchNewPage() -> CancelableTask? {
         
