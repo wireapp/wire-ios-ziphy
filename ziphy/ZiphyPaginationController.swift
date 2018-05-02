@@ -20,7 +20,7 @@
 import Foundation
 
 
-public typealias SuccessOrErrorCallback = (_ success:Bool, _ error:Error?)->()
+public typealias SuccessOrErrorCallback = (_ success:Bool, _ ziphs:[Ziph], _ error:Error?)->()
 public typealias FetchBlock = (_ offset:Int)-> CancelableTask?
 
 public class ZiphyPaginationController {
@@ -72,8 +72,6 @@ public class ZiphyPaginationController {
             self.offset = self.ziphs.count
         }
         
-        performOnQueue(self.callBackQueue){
-            self.completionBlock?(success, error)
-        }
+        self.completionBlock?(success, self.ziphs, error)
     }
 }

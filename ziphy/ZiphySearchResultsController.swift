@@ -19,19 +19,18 @@
 
 import Foundation
 
-
-
-@objc public class ZiphySearchResultsController : NSObject {
-    
-    public var ziphyClient : ZiphyClient?
-    public var results : [Ziph] {
-        let ziphs = self.paginationController?.ziphs ?? []
-        
-        return ziphs.filter({
+extension Array where Element:Ziph {
+    fileprivate func filteredResults(maxImageSize: Int) -> [Ziph] {
+        return self.filter({
             guard let size = $0.ziphyImages[ZiphyClient.fromZiphyImageTypeToString(.downsized)]?.size else { return false }
             return size < maxImageSize
         })
     }
+}
+
+final public class ZiphySearchResultsController {
+    
+    public var ziphyClient : ZiphyClient?
 
     public var resultsLastFetch:Int {
     
@@ -56,8 +55,6 @@ import Foundation
         self.pageSize = pageSize
         self.maxImageSize = maxImageSize
         self.imageCache.totalCostLimit = 1024 * 1024 * 10 // 10MB
-        
-        super.init()
     }
     
     public func search(withSearchTerm searchTerm: String, _ completion:@escaping SuccessOrErrorCallback) -> CancelableTask? {
@@ -69,7 +66,7 @@ import Foundation
                 
                 return strongSelf.ziphyClient?.search(strongSelf.callbackQueue, term: searchTerm, resultsLimit: strongSelf.pageSize, offset: offset) { [weak self] (success, ziphs, error) -> () in
                     if let strongSelf = self {
-                        strongSelf.paginationController?.updatePagination(success, ziphs: ziphs, error: error)
+                        strongSelf.updatePagination(success, ziphs, error)
                     }
                 }
             }
@@ -88,7 +85,7 @@ import Foundation
                 
                 return strongSelf.ziphyClient?.trending(strongSelf.callbackQueue, resultsLimit: strongSelf.pageSize, offset: offset) { [weak self] (success, ziphs, error) in
                     if let strongSelf = self {
-                        strongSelf.paginationController?.updatePagination(success, ziphs: ziphs, error: error)
+                        strongSelf.updatePagination(success, ziphs, error)
                     }
                 }
             }
@@ -98,7 +95,11 @@ import Foundation
         
         return fetchMoreResults(completion)
     }
-    
+
+    func updatePagination(_ success:Bool, _ ziphs:[Ziph], _ error:Error?) {
+        paginationController?.updatePagination(success, ziphs: ziphs.filteredResults(maxImageSize: maxImageSize), error: error)
+    }
+
     public func fetchMoreResults(_ completion:@escaping SuccessOrErrorCallback) -> CancelableTask? {
         self.paginationController?.completionBlock = completion
         return self.paginationController?.fetchNewPage()
