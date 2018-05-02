@@ -41,7 +41,7 @@ final class ZiphySearchResultsControllerTests: ZiphyTestCase {
         super.tearDown()
     }
 
-    func testThatDelegateMethodIsCalledWhenTrending() {
+    func testThatTrendingReturnsZiphsInCallback() {
         // GIVEN
         let expectation = self.expectation(description: "did return some results")
 
@@ -56,7 +56,7 @@ final class ZiphySearchResultsControllerTests: ZiphyTestCase {
         waitForExpectations(timeout: 20) { (error) in }
     }
 
-    func testThatDelegateMethodIsCalledWhenSearch() {
+    func testThatSearchReturnsZiphsInCallback() {
         // GIVEN
         let expectation = self.expectation(description: "did return some results")
 
