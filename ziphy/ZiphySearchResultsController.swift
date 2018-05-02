@@ -59,7 +59,7 @@ final public class ZiphySearchResultsController {
     
     public func search(withSearchTerm searchTerm: String, _ completion:@escaping SuccessOrErrorCallback) -> CancelableTask? {
         
-        self.paginationController = ZiphyPaginationController(callBackQueue:callbackQueue)
+        self.paginationController = ZiphyPaginationController()
         self.paginationController?.fetchBlock = { [weak self] (offset) in
             
             if let strongSelf = self {
@@ -78,7 +78,7 @@ final public class ZiphySearchResultsController {
     }
     
     public func trending(_ completion:@escaping SuccessOrErrorCallback) -> CancelableTask? {
-        self.paginationController = ZiphyPaginationController(callBackQueue:callbackQueue)
+        self.paginationController = ZiphyPaginationController()
         self.paginationController?.fetchBlock = { [weak self] (offset) in
             
             if let strongSelf = self {

@@ -25,7 +25,7 @@ public typealias FetchBlock = (_ offset:Int)-> CancelableTask?
 
 public class ZiphyPaginationController {
     
-    fileprivate(set) open var ziphs:[Ziph] = []
+    fileprivate(set) var ziphs:[Ziph] = []
     
     fileprivate (set) var ziphsThisFetch = 0
     fileprivate (set) open var totalPagesFetched = 0
@@ -33,12 +33,6 @@ public class ZiphyPaginationController {
     
     open var fetchBlock:FetchBlock?
     open var completionBlock:SuccessOrErrorCallback?
-    open var callBackQueue:DispatchQueue
-    
-    public init(callBackQueue:DispatchQueue = DispatchQueue.main){
-        
-        self.callBackQueue = callBackQueue;
-    }
     
     open func fetchNewPage() -> CancelableTask? {
         
