@@ -66,7 +66,7 @@ final public class ZiphySearchResultsController {
                 
                 return strongSelf.ziphyClient?.search(strongSelf.callbackQueue, term: searchTerm, resultsLimit: strongSelf.pageSize, offset: offset) { [weak self] (success, ziphs, error) -> () in
                     if let strongSelf = self {
-                        strongSelf.paginationController?.updatePagination(success, ziphs: ziphs.filteredResults(maxImageSize: strongSelf.maxImageSize), error: error)
+                        strongSelf.updatePagination(success, ziphs, error)
                     }
                 }
             }
@@ -85,7 +85,7 @@ final public class ZiphySearchResultsController {
                 
                 return strongSelf.ziphyClient?.trending(strongSelf.callbackQueue, resultsLimit: strongSelf.pageSize, offset: offset) { [weak self] (success, ziphs, error) in
                     if let strongSelf = self {
-                        strongSelf.paginationController?.updatePagination(success, ziphs: ziphs.filteredResults(maxImageSize: strongSelf.maxImageSize), error: error)
+                        strongSelf.updatePagination(success, ziphs, error)
                     }
                 }
             }
@@ -95,7 +95,11 @@ final public class ZiphySearchResultsController {
         
         return fetchMoreResults(completion)
     }
-    
+
+    func updatePagination(_ success:Bool, _ ziphs:[Ziph], _ error:Error?) {
+        paginationController?.updatePagination(success, ziphs: ziphs.filteredResults(maxImageSize: maxImageSize), error: error)
+    }
+
     public func fetchMoreResults(_ completion:@escaping SuccessOrErrorCallback) -> CancelableTask? {
         self.paginationController?.completionBlock = completion
         return self.paginationController?.fetchNewPage()
