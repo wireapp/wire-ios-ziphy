@@ -19,10 +19,7 @@
 
 import Foundation
 
-
-
-@objc public enum ZiphyLogLevel: Int, Comparable {
-    
+public enum ZiphyLogLevel: Int, Comparable {
     case verbose = 0
     case debug
     case info
@@ -30,11 +27,7 @@ import Foundation
     case error
 }
 
-
-public func ==(x: ZiphyLogLevel, y: ZiphyLogLevel) -> Bool { return x.rawValue == y.rawValue }
 public func <(x: ZiphyLogLevel, y: ZiphyLogLevel) -> Bool { return x.rawValue < y.rawValue }
-
-
 
 func Log(_ message: String,
     function: String = #function,
