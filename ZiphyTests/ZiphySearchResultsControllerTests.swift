@@ -17,58 +17,193 @@
 //
 
 import XCTest
-import Ziphy
+@testable import Ziphy
 
-final class ZiphySearchResultsControllerTests: ZiphyTestCase {
+class ZiphySearchResultsControllerTests: XCTestCase {
 
-    var sut: ZiphySearchResultsController!
-    var ziphyClient: ZiphyClient!
+    var requester: MockPaginatedRequester!
+    var downloadRequester: MockZiphyRequester!
+    var searchController: ZiphySearchResultsController!
 
     override func setUp() {
         super.setUp()
+        requester = MockPaginatedRequester()
+        downloadRequester = MockZiphyRequester()
 
-        ZiphyClient.logLevel = ZiphyLogLevel.verbose
-        self.ziphyClient = ZiphyClient(host:"api.giphy.com", requester:self.defaultRequester)
-
-        sut = ZiphySearchResultsController(pageSize: 50, callbackQueue: DispatchQueue.main)
-        sut.ziphyClient = ziphyClient
+        let client = ZiphyClient(host: "localhost", requester: requester, downloadSession: downloadRequester)
+        searchController = ZiphySearchResultsController(client: client, pageSize: 5, maxImageSize: 5)
     }
 
     override func tearDown() {
-        sut = nil
-        ziphyClient = nil
-
+        searchController = nil
+        requester = nil
+        downloadRequester = nil
         super.tearDown()
     }
 
-    func testThatTrendingReturnsZiphsInCallback() {
+    func testThatItPerformsInitialSearch() {
         // GIVEN
-        let expectation = self.expectation(description: "did return some results")
+        let ziphs = makeRandomZiphs(count: 10)
+        requester.response = .success(ziphs)
 
-        // WHEN & THEN
-        _ = sut.trending() { (success, ziphs, error) in
-            XCTAssert(success)
-            XCTAssertGreaterThan(ziphs.count, 0)
+        // WHEN
+        let fetchExpectation = expectation(description: "Initial search results are fetched.")
+        var fetchResult: ZiphyResult<[Ziph]>?
 
-            expectation.fulfill()
+        _ = searchController.search(withTerm: "hello") { result in
+            fetchResult = result
+            fetchExpectation.fulfill()
         }
 
-        waitForExpectations(timeout: 20) { (error) in }
-    }
+        sendResponse(afterDelay: 1)
+        waitForExpectations(timeout: 5, handler: nil)
 
-    func testThatSearchReturnsZiphsInCallback() {
-        // GIVEN
-        let expectation = self.expectation(description: "did return some results")
+        // THEN
 
-        // WHEN & THEN
-        _ = sut.search(withSearchTerm: "apple") {(success, ziphs, error) in
-            XCTAssert(success)
-
-            XCTAssertGreaterThan(ziphs.count, 0)
-
-            expectation.fulfill()
+        guard let result = fetchResult else {
+            XCTFail("No fetch result was provided.")
+            return
         }
 
-        waitForExpectations(timeout: 20) { (error) in }
+        guard case let .success(fetchedZiphs) = result else {
+            XCTFail("An error was thrown: \(result.error)")
+            return
+        }
+
+        XCTAssertEqual(fetchedZiphs.count, 5)
+        XCTAssertEqual(searchController.paginationController?.offset, 5)
+
+        XCTAssertTrue(fetchedZiphs.contains(where: { $0.identifier == "0" }))
+        XCTAssertTrue(fetchedZiphs.contains(where: { $0.identifier == "1" }))
+        XCTAssertTrue(fetchedZiphs.contains(where: { $0.identifier == "2" }))
+        XCTAssertTrue(fetchedZiphs.contains(where: { $0.identifier == "3" }))
+        XCTAssertTrue(fetchedZiphs.contains(where: { $0.identifier == "4" }))
+        XCTAssertFalse(fetchedZiphs.contains(where: { $0.identifier == "5" }))
     }
+
+    func testThatItPerformsInitialTrending() {
+        // GIVEN
+        let ziphs = makeRandomZiphs(count: 10)
+        requester.response = .success(ziphs)
+
+        // WHEN
+        let fetchExpectation = expectation(description: "Initial trending images are fetched.")
+        var fetchResult: ZiphyResult<[Ziph]>?
+
+        _ = searchController.trending { result in
+            fetchResult = result
+            fetchExpectation.fulfill()
+        }
+
+        sendResponse(afterDelay: 1)
+        waitForExpectations(timeout: 5, handler: nil)
+
+        // THEN
+
+        guard let result = fetchResult else {
+            XCTFail("No fetch result was provided.")
+            return
+        }
+
+        guard case let .success(fetchedZiphs) = result else {
+            XCTFail("An error was thrown: \(result.error)")
+            return
+        }
+
+        XCTAssertEqual(fetchedZiphs.count, 5)
+        XCTAssertEqual(searchController.paginationController?.offset, 5)
+
+        XCTAssertTrue(fetchedZiphs.contains(where: { $0.identifier == "0" }))
+        XCTAssertTrue(fetchedZiphs.contains(where: { $0.identifier == "1" }))
+        XCTAssertTrue(fetchedZiphs.contains(where: { $0.identifier == "2" }))
+        XCTAssertTrue(fetchedZiphs.contains(where: { $0.identifier == "3" }))
+        XCTAssertTrue(fetchedZiphs.contains(where: { $0.identifier == "4" }))
+        XCTAssertFalse(fetchedZiphs.contains(where: { $0.identifier == "5" }))
+    }
+
+    func testThatItFetchesImageData() {
+        // GIVEN
+        let ziph = makeLocalZiph()
+        downloadRequester.response = makeFileResponse()
+
+        // WHEN
+        let downloadExpectation = expectation(description: "The image is downloaded.")
+        var downloadResult: ZiphyResult<Data>?
+
+        searchController.fetchImageData(for: ziph, imageType: .downsized) { result in
+            downloadResult = result
+            downloadExpectation.fulfill()
+        }
+
+        sendDownloadResponse(afterDelay: 1)
+        waitForExpectations(timeout: 5, handler: nil)
+
+        // THEN
+
+        guard let result = downloadResult else {
+            XCTFail("No download result was provided.")
+            return
+        }
+
+        guard case let .success(data) = result else {
+            XCTFail("An error was thrown: \(result.error)")
+            return
+        }
+
+        XCTAssertFalse(data.isEmpty)
+        XCTAssertEqual(data.prefix(6), Data([0x47, 0x49, 0x46, 0x38, 0x39, 0x61])) // GIF89a header
+    }
+
+    // MARK: - Utilities
+
+    private func makeRandomZiphs(count: Int) -> [Ziph] {
+        var ziphs: [Ziph] = []
+
+        for i in 0 ..< count {
+            let id = String(i)
+            let url = URL(string: "http://localhost/media/image\(id).gif")!
+
+            let imagesList: [ZiphyImageType: ZiphyAnimatedImage] = [
+                .preview: ZiphyAnimatedImage(url: url, width: 300, height: 200, fileSize: 51200),
+                .fixedWidthDownsampled: ZiphyAnimatedImage(url: url, width: 300, height: 200, fileSize: 204800),
+                .original: ZiphyAnimatedImage(url: url, width: 300, height: 200, fileSize: 2048000),
+                .downsized: ZiphyAnimatedImage(url: url, width: 300, height: 200, fileSize: 5000000),
+            ]
+
+            let ziph = Ziph(identifier: id, images: ZiphyAnimatedImageList(images: imagesList), title: id)
+            ziphs.append(ziph)
+        }
+
+        return ziphs
+    }
+
+    private func sendResponse(afterDelay seconds: Int) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(seconds)) {
+            self.requester.respond()
+        }
+    }
+
+    private func sendDownloadResponse(afterDelay seconds: Int) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(seconds)) {
+            self.downloadRequester.respond()
+        }
+    }
+
+    private func makeLocalZiph() -> Ziph {
+        let url = Bundle(for: ZiphySearchResultsControllerTests.self).url(forResource: "craig", withExtension: "gif")!
+
+        let images: [ZiphyImageType: ZiphyAnimatedImage] = [
+            .downsized: ZiphyAnimatedImage(url: url, width: 300, height: 200, fileSize: 5000000)
+        ]
+
+        return Ziph(identifier: "000000", images: ZiphyAnimatedImageList(images: images), title: "Craig dot GIF")
+    }
+
+    private func makeFileResponse() -> MockZiphyResponse {
+        let url = Bundle(for: ZiphySearchResultsControllerTests.self).url(forResource: "craig", withExtension: "gif")!
+        let data = try! Data(contentsOf: url)
+        let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: nil)!
+        return .success(data, response)
+    }
+
 }

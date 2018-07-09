@@ -23,7 +23,7 @@ import Foundation
  * valid images will be included.
  */
 
-public struct ZiphyAnimatedImageList: Decodable {
+public struct ZiphyAnimatedImageList: Codable {
 
     fileprivate let images: [ZiphyImageType: ZiphyAnimatedImage]
 
@@ -42,6 +42,14 @@ public struct ZiphyAnimatedImageList: Decodable {
         }
 
         self.images = images
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: ZiphyImageType.self)
+
+        for (type, image) in images {
+            try container.encode(image, forKey: type)
+        }
     }
 
 }

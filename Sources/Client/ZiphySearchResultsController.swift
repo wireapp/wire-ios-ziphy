@@ -28,7 +28,7 @@ public final class ZiphySearchResultsController {
     public let pageSize: Int
     public let maxImageSize: Int
 
-    fileprivate var paginationController: ZiphyPaginationController?
+    var paginationController: ZiphyPaginationController?
 
     // MARK: - Initialization
 
@@ -96,14 +96,7 @@ public final class ZiphySearchResultsController {
 
     // MARK: - Fetching Data
 
-    /**
-     * Attempts to fetch the data for the image of the specified type for the given GIF post.
-     *
-     * - parameter ziph: The Ziph to fetch the image representation of.
-     * - parameter imageType: The type of image to fetch.
-     * - parameter completion: The
-     */
-    
+    /// Attempts to fetch the data for the image of the specified type for the given GIF post.
     public func fetchImageData(for ziph: Ziph, imageType: ZiphyImageType, completion: @escaping ZiphyImageDataCallback) {
         guard let representation = ziph.images[imageType] else {
             self.client.callbackQueue.async { completion(.failure(.noSuchResource)) }

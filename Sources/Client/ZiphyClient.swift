@@ -237,7 +237,7 @@ extension ZiphyClient {
     }
 
     /// Decodes a paginated response.
-    fileprivate func decodePaginatedResponse<ZiphyData>(_ data: Data) throws -> ZiphyData where ZiphyData: Decodable {
+    fileprivate func decodePaginatedResponse<ZiphyData>(_ data: Data) throws -> ZiphyData where ZiphyData: Codable {
         let response: ZiphyPaginatedResponse<ZiphyData>
 
         do {
@@ -257,7 +257,7 @@ extension ZiphyClient {
     }
 
     /// Decodes a response for a single resource.
-    fileprivate func decodeDataResponse<ZiphyData>(_ data: Data) throws -> ZiphyData where ZiphyData: Decodable {
+    fileprivate func decodeDataResponse<ZiphyData>(_ data: Data) throws -> ZiphyData where ZiphyData: Codable {
         do {
             let decoder = JSONDecoder()
             let response = try decoder.decode(ZiphyDataResponse<ZiphyData>.self, from: data)

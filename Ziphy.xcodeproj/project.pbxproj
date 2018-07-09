@@ -11,6 +11,9 @@
 		5E107A9B20F358C000EB9DE7 /* mock_search_end.json in Resources */ = {isa = PBXBuildFile; fileRef = 5E107A9A20F358C000EB9DE7 /* mock_search_end.json */; };
 		5EBC343320EE0F5D00AFB6DF /* ZiphyImageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBC343220EE0F5D00AFB6DF /* ZiphyImageType.swift */; };
 		5EF4A6D720F3A06200A9EF22 /* ZiphyPaginationControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB289BA21B6B78C000718F19 /* ZiphyPaginationControllerTests.swift */; };
+		5EF4A6D820F3A97400A9EF22 /* ZiphySearchResultsControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEFAD1D206B8BF50046724E /* ZiphySearchResultsControllerTests.swift */; };
+		5EF4A6DB20F3A9B800A9EF22 /* MockPaginatedRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF4A6DA20F3A9B800A9EF22 /* MockPaginatedRequester.swift */; };
+		5EF4A6DD20F3B67500A9EF22 /* craig.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5EF4A6DC20F3B67400A9EF22 /* craig.gif */; };
 		5EF5CDA020EF672600CC98B0 /* ZiphyEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF5CD9F20EF672600CC98B0 /* ZiphyEndpoint.swift */; };
 		5EF5CDA320EF6B3400CC98B0 /* ZiphyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF5CDA220EF6B3400CC98B0 /* ZiphyResponse.swift */; };
 		5EF5CDB020EFD73500CC98B0 /* URLRequestPromise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF5CDAF20EFD73500CC98B0 /* URLRequestPromise.swift */; };
@@ -62,6 +65,8 @@
 		54FB268C1D4669D0005574BF /* warnings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = warnings.xcconfig; sourceTree = "<group>"; };
 		5E107A9A20F358C000EB9DE7 /* mock_search_end.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_search_end.json; sourceTree = "<group>"; };
 		5EBC343220EE0F5D00AFB6DF /* ZiphyImageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZiphyImageType.swift; sourceTree = "<group>"; };
+		5EF4A6DA20F3A9B800A9EF22 /* MockPaginatedRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPaginatedRequester.swift; sourceTree = "<group>"; };
+		5EF4A6DC20F3B67400A9EF22 /* craig.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = craig.gif; sourceTree = "<group>"; };
 		5EF5CD9F20EF672600CC98B0 /* ZiphyEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZiphyEndpoint.swift; sourceTree = "<group>"; };
 		5EF5CDA220EF6B3400CC98B0 /* ZiphyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZiphyResponse.swift; sourceTree = "<group>"; };
 		5EF5CDAF20EFD73500CC98B0 /* URLRequestPromise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestPromise.swift; sourceTree = "<group>"; };
@@ -73,7 +78,6 @@
 		5EF5CDC320F3560300CC98B0 /* ZiphyAnimatedImageList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZiphyAnimatedImageList.swift; sourceTree = "<group>"; };
 		5EF5CDC520F3580300CC98B0 /* mock_search_page1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_search_page1.json; sourceTree = "<group>"; };
 		DB289BA21B6B78C000718F19 /* ZiphyPaginationControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZiphyPaginationControllerTests.swift; sourceTree = "<group>"; };
-		DB289BA41B6B78F900718F19 /* ZiphyTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZiphyTestCase.swift; sourceTree = "<group>"; };
 		DB29C9A11B6BD4170072D14E /* ZiphySearchResultsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZiphySearchResultsController.swift; sourceTree = "<group>"; };
 		DB3A68561B18963600900CF0 /* ZiphyError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZiphyError.swift; sourceTree = "<group>"; };
 		DB3A68581B18970F00900CF0 /* ZiphyUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZiphyUtils.swift; sourceTree = "<group>"; };
@@ -84,7 +88,6 @@
 		DBF3805D1B15C0B800369FB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DBF380641B15C0B800369FB7 /* ZiphyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZiphyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBF3806A1B15C0B800369FB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DBF3806B1B15C0B800369FB7 /* ziphyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ziphyTests.swift; sourceTree = "<group>"; };
 		DBF380751B15C2D700369FB7 /* ZiphyClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZiphyClient.swift; sourceTree = "<group>"; };
 		DBF3807A1B15D32C00369FB7 /* ZiphyAnimatedImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZiphyAnimatedImage.swift; sourceTree = "<group>"; };
 		EFEFAD1D206B8BF50046724E /* ZiphySearchResultsControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZiphySearchResultsControllerTests.swift; sourceTree = "<group>"; };
@@ -150,6 +153,15 @@
 			path = "zmc-config";
 			sourceTree = "<group>";
 		};
+		5EF4A6D920F3A99F00A9EF22 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				5EF5CDB320F1E9A900CC98B0 /* MockZiphyRequester.swift */,
+				5EF4A6DA20F3A9B800A9EF22 /* MockPaginatedRequester.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
 		5EF5CDAD20EFD36F00CC98B0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -176,19 +188,10 @@
 			path = Client;
 			sourceTree = "<group>";
 		};
-		5EF5CDB920F1FF8900CC98B0 /* Old */ = {
-			isa = PBXGroup;
-			children = (
-				DB289BA41B6B78F900718F19 /* ZiphyTestCase.swift */,
-				DBF3806B1B15C0B800369FB7 /* ziphyTests.swift */,
-				EFEFAD1D206B8BF50046724E /* ZiphySearchResultsControllerTests.swift */,
-			);
-			name = Old;
-			sourceTree = "<group>";
-		};
 		5EF5CDBB20F2005700CC98B0 /* MockResponses */ = {
 			isa = PBXGroup;
 			children = (
+				5EF4A6DC20F3B67400A9EF22 /* craig.gif */,
 				5EF5CDBC20F2009400CC98B0 /* mock_single_gif.json */,
 				5EF5CDC520F3580300CC98B0 /* mock_search_page1.json */,
 				5E107A9A20F358C000EB9DE7 /* mock_search_end.json */,
@@ -247,11 +250,11 @@
 			isa = PBXGroup;
 			children = (
 				5EF5CDBB20F2005700CC98B0 /* MockResponses */,
-				5EF5CDB320F1E9A900CC98B0 /* MockZiphyRequester.swift */,
+				5EF4A6D920F3A99F00A9EF22 /* Mocks */,
 				5EF5CDB720F1F99100CC98B0 /* ZiphyRequestGeneratorTests.swift */,
 				5EF5CDB520F1EA3100CC98B0 /* ZiphyClientTests.swift */,
 				DB289BA21B6B78C000718F19 /* ZiphyPaginationControllerTests.swift */,
-				5EF5CDB920F1FF8900CC98B0 /* Old */,
+				EFEFAD1D206B8BF50046724E /* ZiphySearchResultsControllerTests.swift */,
 				DBF380691B15C0B800369FB7 /* Supporting Files */,
 			);
 			path = ZiphyTests;
@@ -368,6 +371,7 @@
 				5E107A9920F3586A00EB9DE7 /* mock_search_page1.json in Resources */,
 				5EF5CDBD20F2009400CC98B0 /* mock_single_gif.json in Resources */,
 				5E107A9B20F358C000EB9DE7 /* mock_search_end.json in Resources */,
+				5EF4A6DD20F3B67500A9EF22 /* craig.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,8 +403,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EF4A6DB20F3A9B800A9EF22 /* MockPaginatedRequester.swift in Sources */,
 				5EF4A6D720F3A06200A9EF22 /* ZiphyPaginationControllerTests.swift in Sources */,
 				5EF5CDBA20F1FF9200CC98B0 /* ZiphyClientTests.swift in Sources */,
+				5EF4A6D820F3A97400A9EF22 /* ZiphySearchResultsControllerTests.swift in Sources */,
 				5EF5CDB820F1F99100CC98B0 /* ZiphyRequestGeneratorTests.swift in Sources */,
 				5EF5CDB420F1E9A900CC98B0 /* MockZiphyRequester.swift in Sources */,
 			);

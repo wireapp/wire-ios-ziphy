@@ -22,7 +22,7 @@ import Foundation
  * An item representing a post from Giphy.
  */
 
-public struct Ziph: Decodable {
+public struct Ziph: Codable {
 
     public let identifier: String
     public let images: ZiphyAnimatedImageList

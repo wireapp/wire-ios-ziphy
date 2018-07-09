@@ -46,12 +46,6 @@ class ZiphyPaginationController {
         return self.fetchNewPage(self.offset)
     }
 
-    /// Removes all the paginated data from memory.
-    func clearResults() {
-        self.offset = 0
-        self.ziphs = []
-    }
-
     // MARK: - Updating the Data
 
     private func fetchNewPage(_ offset:Int) -> CancelableTask? {

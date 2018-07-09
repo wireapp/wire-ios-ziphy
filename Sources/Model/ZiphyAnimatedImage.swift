@@ -22,7 +22,7 @@ import Foundation
  * Represents an animated image provided by Giphy.
  */
 
-public struct ZiphyAnimatedImage: Decodable {
+public struct ZiphyAnimatedImage: Codable {
 
     public let url: URL
     public let width: ZiphyInt

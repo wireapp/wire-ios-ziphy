@@ -22,7 +22,7 @@ import Foundation
  * A JSON response that encapsulates a JSON data object.
  */
 
-struct ZiphyDataResponse<Object>: Decodable where Object: Decodable {
+struct ZiphyDataResponse<Object>: Codable where Object: Codable {
     let data: Object
 }
 
@@ -30,7 +30,7 @@ struct ZiphyDataResponse<Object>: Decodable where Object: Decodable {
  * A JSON response that provides pagination information.
  */
 
-struct ZiphyPaginatedResponse<Object>: Decodable where Object: Decodable {
+struct ZiphyPaginatedResponse<Object>: Codable where Object: Codable {
     let pagination: ZiphyPagination
     let data: Object
 }
@@ -39,7 +39,7 @@ struct ZiphyPaginatedResponse<Object>: Decodable where Object: Decodable {
  * Pagination information for a JSON response.
  */
 
-struct ZiphyPagination: Decodable {
+struct ZiphyPagination: Codable {
 
     let count: Int
     let totalCount: Int
