@@ -22,10 +22,10 @@ import Foundation
  * An item representing a post from Giphy.
  */
 
-public struct Ziph: Codable {
+public struct Ziph: Decodable {
 
     public let identifier: String
-    public let images: [ZiphyImageType: ZiphyAnimatedImage]
+    public let images: ZiphyAnimatedImageList
     public let title: String?
 
     public var description: String {
@@ -36,10 +36,14 @@ public struct Ziph: Codable {
 
     // MARK: - Initialization
 
-    public init(identifier: String, images: [ZiphyImageType: ZiphyAnimatedImage], title: String) {
+    public init(identifier: String, images: ZiphyAnimatedImageList, title: String) {
         self.identifier = identifier
         self.images = images
         self.title = title
+    }
+
+    public enum CodingKeys: String, CodingKey {
+        case title, images, identifier = "id"
     }
 
 }

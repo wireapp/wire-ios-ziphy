@@ -19,7 +19,7 @@
 
 import UIKit
 import XCTest
-import ziphy
+import Ziphy
 
 class GiphyRequester : ZiphyURLRequester {
     

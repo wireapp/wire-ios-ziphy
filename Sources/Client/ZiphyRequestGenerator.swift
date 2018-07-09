@@ -59,7 +59,7 @@ extension ZiphyRequestGenerator {
      * Creates the request to fetch random images.
      */
 
-    func makeRandomImagesRequest() -> Result<URLRequest, ZiphyError> {
+    func makeRandomImageRequest() -> Result<URLRequest, ZiphyError> {
         return makeRequest(endpoint: .random)
     }
 
@@ -100,7 +100,7 @@ extension ZiphyRequestGenerator {
      */
 
     func makeImageFetchRequest(identifiers: [String]) -> Result<URLRequest, ZiphyError> {
-        let commaSeparatedIds = identifiers.reduce("", { $0 == "" ? $1 : $0 + "," + $1 })
+        let commaSeparatedIds = identifiers.joined(separator: ",")
         let queryItems = [URLQueryItem(name: "ids", value: commaSeparatedIds)]
         return makeRequest(endpoint: .gifs, query: queryItems)
     }

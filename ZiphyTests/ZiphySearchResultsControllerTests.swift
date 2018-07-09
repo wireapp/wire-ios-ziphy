@@ -17,7 +17,7 @@
 //
 
 import XCTest
-import ziphy
+import Ziphy
 
 final class ZiphySearchResultsControllerTests: ZiphyTestCase {
 

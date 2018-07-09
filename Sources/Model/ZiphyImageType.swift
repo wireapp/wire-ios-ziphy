@@ -20,35 +20,21 @@ import Foundation
 
 /**
  * The types of image provided by the Giphy API.
- *
- * When decoding this type from JSON, `unknown` will be used if the
- * name of the type is not in the list, instead of failing.
  */
 
-public enum ZiphyImageType: String, Codable {
+public enum ZiphyImageType: String, CodingKey {
 
     case fixedHeight = "fixed_height"
-    case fixedHeightStill = "fixed_height_still"
     case fixedHeightDownsampled = "fixed_height_downsampled"
-    case fixedWidth = "fixed_width"
-    case fixedWidthStill = "fixed_width_still"
-    case fixedWidthDownsampled = "fixed_width_downsampled"
     case fixedHeightSmall = "fixed_height_small"
-    case fixedHeightSmallStill = "fixed_height_small_still"
+    case fixedWidth = "fixed_width"
+    case fixedWidthDownsampled = "fixed_width_downsampled"
     case fixedWidthSmall = "fixed_width_small"
-    case fixedWidthSmallStill = "fixed_width_small_still"
     case downsized = "downsized"
-    case downsizedStill = "downsized_still"
     case downsizedLarge = "downsized_large"
+    case downsizedMedium = "downsized_medium"
+    case downsizedSmall = "downsized_small"
     case original = "original"
-    case originalStill = "original_still"
-    case unknown
-
-    // MARK: - Codable
-
-    public init(from decoder: Decoder) throws {
-        let nameString = try decoder.singleValueContainer().decode(String.self)
-        self = ZiphyImageType(rawValue: nameString) ?? .unknown
-    }
+    case preview = "preview_gif"
 
 }

@@ -154,7 +154,7 @@ extension ZiphyClient {
 
     @discardableResult
     public func fetchRandomPost(onCompletion: @escaping ZiphyLookupCallback) -> CancelableTask? {
-        let request = requestGenerator.makeRandomImagesRequest()
+        let request = requestGenerator.makeRandomImageRequest()
 
         let completionHandler = makeCompletionHandler(onCompletion)
         let dataTask = performDataTask(request, errorHandler: completionHandler)
@@ -238,7 +238,7 @@ extension ZiphyClient {
     }
 
     /// Decodes a paginated response.
-    fileprivate func decodePaginatedResponse<ZiphyData>(_ data: Data) throws -> ZiphyData where ZiphyData: Codable {
+    fileprivate func decodePaginatedResponse<ZiphyData>(_ data: Data) throws -> ZiphyData where ZiphyData: Decodable {
         do {
 
             let decoder = JSONDecoder()
@@ -257,7 +257,7 @@ extension ZiphyClient {
     }
 
     /// Decodes a response for a single resource.
-    fileprivate func decodeDataResponse<ZiphyData>(_ data: Data) throws -> ZiphyData where ZiphyData: Codable {
+    fileprivate func decodeDataResponse<ZiphyData>(_ data: Data) throws -> ZiphyData where ZiphyData: Decodable {
         do {
             let decoder = JSONDecoder()
             let response = try decoder.decode(ZiphyDataResponse<ZiphyData>.self, from: data)

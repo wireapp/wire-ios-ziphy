@@ -25,6 +25,14 @@ import Foundation
 public enum Result<T, E: Error> {
     case success(T)
     case failure(E)
+
+    var error: E! {
+        if case .failure(let error) = self {
+            return error
+        } else {
+            return nil
+        }
+    }
 }
 
 /**

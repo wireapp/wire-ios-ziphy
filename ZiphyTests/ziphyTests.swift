@@ -16,12 +16,8 @@
 // along with this program. If not, see http://www.gnu.org/licenses/.
 // 
 
-
 import XCTest
-import ziphy
-
-
-
+import Ziphy
 
 class ziphyTests: ZiphyTestCase {
     
