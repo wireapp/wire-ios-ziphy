@@ -96,22 +96,6 @@ extension ZiphyClient {
         let request = requestGenerator.makeSearchRequest(term: term, resultsLimit: resultsLimit, offset: offset)
         return performPotentialZiphListRequest(request, onCompletion: onCompletion)
     }
-
-    /**
-     * Attempts to fetch images with the specified identifiers.
-     *
-     * - parameter identifiers: The identifiers of the images to fetch.
-     * - parameter onCompletion: The block of code to execute with the result of the fetch.
-     *
-     * - returns: The cancellable fetch task.
-     */
-
-    @discardableResult
-    public func fetchZiphs(withIdentifiers identifiers: [String], onCompletion: @escaping ZiphyListRequestCallback) -> CancelableTask? {
-
-        let request = requestGenerator.makeImageFetchRequest(identifiers: identifiers)
-        return performPotentialZiphListRequest(request, isPaginated: false, onCompletion: onCompletion)
-    }
     
     private func performPotentialZiphListRequest(_ potentialRequest: ZiphyResult<URLRequest>, isPaginated: Bool = true, onCompletion: @escaping ZiphyListRequestCallback) -> CancelableTask? {
 

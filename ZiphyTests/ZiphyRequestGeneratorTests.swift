@@ -54,28 +54,6 @@ class ZiphyRequestGeneratorTests: XCTestCase {
         verifyURL(request, expected: "https://localhost/v1/gifs/random")
     }
 
-    func testThatItGeneratesFetchRequestForSingleImage() {
-        // GIVEN
-        let ids = ["xT4uQulxzV39haRFjG"]
-
-        // WHEN
-        let request = generator.makeImageFetchRequest(identifiers: ids)
-
-        // THEN
-        verifyURL(request, expected: "https://localhost/v1/gifs?ids=xT4uQulxzV39haRFjG")
-    }
-
-    func testThatItGeneratesFetchRequestForMultipleImage() {
-        // GIVEN
-        let ids = ["xT4uQulxzV39haRFjG,3og0IPxMM0erATueVW"]
-
-        // WHEN
-        let request = generator.makeImageFetchRequest(identifiers: ids)
-
-        // THEN
-        verifyURL(request, expected: "https://localhost/v1/gifs?ids=xT4uQulxzV39haRFjG,3og0IPxMM0erATueVW")
-    }
-
     // MARK: - Utilities
 
     private func verifyURL(_ potentialResult: ZiphyResult<URLRequest>, expected: String) {

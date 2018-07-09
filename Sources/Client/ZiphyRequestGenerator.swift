@@ -93,16 +93,4 @@ extension ZiphyRequestGenerator {
         return makeRequest(endpoint: .search, query: queryItems)
     }
 
-    /**
-     * Creates the request to search for images by their identifier.
-     *
-     * - parameter identifiers: The identifiers of the images to fetch.
-     */
-
-    func makeImageFetchRequest(identifiers: [String]) -> ZiphyResult<URLRequest> {
-        let commaSeparatedIds = identifiers.joined(separator: ",")
-        let queryItems = [URLQueryItem(name: "ids", value: commaSeparatedIds)]
-        return makeRequest(endpoint: .gifs, query: queryItems)
-    }
-
 }
