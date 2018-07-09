@@ -78,7 +78,7 @@ class ZiphyRequestGeneratorTests: XCTestCase {
 
     // MARK: - Utilities
 
-    private func verifyURL(_ potentialResult: Result<URLRequest, ZiphyError>, expected: String) {
+    private func verifyURL(_ potentialResult: ZiphyResult<URLRequest, ZiphyError>, expected: String) {
         switch potentialResult {
         case .success(let request):
             guard let url = request.url else {

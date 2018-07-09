@@ -31,7 +31,7 @@ struct ZiphyRequestGenerator {
      * Creates a request for the specified endpoint and query items, if the resulting URL is valid.
      */
 
-    fileprivate func makeRequest(endpoint: ZiphyEndpoint, query: [URLQueryItem]? = nil) -> Result<URLRequest, ZiphyError> {
+    fileprivate func makeRequest(endpoint: ZiphyEndpoint, query: [URLQueryItem]? = nil) -> ZiphyResult<URLRequest, ZiphyError> {
         let path = "/" + ZiphyEndpoint.version + endpoint.resourcePath
 
         var components = URLComponents()
@@ -59,7 +59,7 @@ extension ZiphyRequestGenerator {
      * Creates the request to fetch random images.
      */
 
-    func makeRandomImageRequest() -> Result<URLRequest, ZiphyError> {
+    func makeRandomImageRequest() -> ZiphyResult<URLRequest, ZiphyError> {
         return makeRequest(endpoint: .random)
     }
 
@@ -70,7 +70,7 @@ extension ZiphyRequestGenerator {
      * - parameter offset: The number of the result page to read.
      */
 
-    func makeTrendingImagesRequest(resultsLimit: Int, offset: Int) -> Result<URLRequest, ZiphyError> {
+    func makeTrendingImagesRequest(resultsLimit: Int, offset: Int) -> ZiphyResult<URLRequest, ZiphyError> {
         let queryItems = [URLQueryItem(name: "limit", value: String(resultsLimit)),
                           URLQueryItem(name: "offset", value: String(offset))]
 
@@ -85,7 +85,7 @@ extension ZiphyRequestGenerator {
      * - parameter offset: The number of the result page to read.
      */
 
-    func makeSearchRequest(term: String, resultsLimit: Int, offset: Int) -> Result<URLRequest, ZiphyError> {
+    func makeSearchRequest(term: String, resultsLimit: Int, offset: Int) -> ZiphyResult<URLRequest, ZiphyError> {
         let queryItems = [URLQueryItem(name: "limit", value: String(resultsLimit)),
                           URLQueryItem(name: "offset", value: String(offset)),
                           URLQueryItem(name: "q", value: term)]
@@ -99,7 +99,7 @@ extension ZiphyRequestGenerator {
      * - parameter identifiers: The identifiers of the images to fetch.
      */
 
-    func makeImageFetchRequest(identifiers: [String]) -> Result<URLRequest, ZiphyError> {
+    func makeImageFetchRequest(identifiers: [String]) -> ZiphyResult<URLRequest, ZiphyError> {
         let commaSeparatedIds = identifiers.joined(separator: ",")
         let queryItems = [URLQueryItem(name: "ids", value: commaSeparatedIds)]
         return makeRequest(endpoint: .gifs, query: queryItems)

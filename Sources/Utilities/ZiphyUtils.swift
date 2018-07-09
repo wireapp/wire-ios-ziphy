@@ -22,7 +22,7 @@ import Foundation
  * The result of an operation, either success or failure.
  */
 
-public enum Result<T, E: Error> {
+public enum ZiphyResult<T, E: Error> {
     case success(T)
     case failure(E)
 
@@ -59,5 +59,27 @@ public protocol CancelableTask {
 
 
     func cancelZiphyRequest(withRequestIdentifier requestIdentifier: ZiphyRequestIdentifier)
+
+}
+
+// MARK: - URL Session
+
+extension URLSessionDataTask: ZiphyRequestIdentifier, CancelableTask {}
+
+extension URLSession: ZiphyURLRequester {
+
+    public func performZiphyRequest(_ request: URLRequest, completionHandler: @escaping ((Data?, URLResponse?, Error?) -> Void)) -> ZiphyRequestIdentifier {
+        let task = self.dataTask(with: request, completionHandler: completionHandler)
+        task.resume()
+        return task
+    }
+
+    public func cancelZiphyRequest(withRequestIdentifier requestIdentifier: ZiphyRequestIdentifier) {
+        guard let task = requestIdentifier as? URLSessionDataTask else {
+            return
+        }
+
+        task.cancel()
+    }
 
 }

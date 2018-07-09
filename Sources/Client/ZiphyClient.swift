@@ -19,13 +19,13 @@
 import Foundation
 
 /// A block that will be executed with the result of a Ziph list fetch request.
-public typealias ZiphyListRequestCallback = (Result<[Ziph], ZiphyError>) -> Void
+public typealias ZiphyListRequestCallback = (ZiphyResult<[Ziph], ZiphyError>) -> Void
 
 /// A block that will be executed with the result of a single Ziph lookup request.
-public typealias ZiphyLookupCallback = (Result<Ziph, ZiphyError>) -> Void
+public typealias ZiphyLookupCallback = (ZiphyResult<Ziph, ZiphyError>) -> Void
 
 /// A block that will be executed with the result of an image data fetch request.
-public typealias ZiphyImageDataCallback = (Result<Data, ZiphyError>) -> Void
+public typealias ZiphyImageDataCallback = (ZiphyResult<Data, ZiphyError>) -> Void
 
 /**
  * An object that provides access to the Giphy API.
@@ -37,6 +37,7 @@ public class ZiphyClient {
 
     let host: String
     let requester: ZiphyURLRequester
+    let downloadSession: ZiphyURLRequester
     let requestGenerator: ZiphyRequestGenerator
     let callbackQueue: DispatchQueue
 
@@ -45,13 +46,15 @@ public class ZiphyClient {
      *
      * - parameter host: The host that provides the REST API for Giphy.
      * - parameter requester: The object that will send and process the requests to the API.
+     * - parameter downloadSession: The requester to use to download images.
      * - parameter callbackQueue: The queue where completion handlers will be called.
      */
 
-    public init(host: String, requester: ZiphyURLRequester, callbackQueue: DispatchQueue = .main) {
+    public init(host: String, requester: ZiphyURLRequester, downloadSession: ZiphyURLRequester, callbackQueue: DispatchQueue = .main) {
         self.requester = requester
         self.host = host
         self.callbackQueue = callbackQueue
+        self.downloadSession = downloadSession
         self.requestGenerator = ZiphyRequestGenerator(host: host)
     }
 
@@ -112,7 +115,7 @@ extension ZiphyClient {
         return performPotentialZiphListRequest(request, isPaginated: false, onCompletion: onCompletion)
     }
     
-    private func performPotentialZiphListRequest(_ potentialRequest: Result<URLRequest, ZiphyError>, isPaginated: Bool = true, onCompletion: @escaping ZiphyListRequestCallback) -> CancelableTask? {
+    private func performPotentialZiphListRequest(_ potentialRequest: ZiphyResult<URLRequest, ZiphyError>, isPaginated: Bool = true, onCompletion: @escaping ZiphyListRequestCallback) -> CancelableTask? {
 
         let completionHandler = makeCompletionHandler(onCompletion)
         let listTask = performDataTask(potentialRequest, errorHandler: completionHandler)
@@ -186,7 +189,7 @@ extension ZiphyClient {
     public func fetchImageData(at url: URL, onCompletion: @escaping ZiphyImageDataCallback) -> CancelableTask? {
         let completionHandler = makeCompletionHandler(onCompletion)
         let request = URLRequest(url: url)
-        let downalodTask = performDataTask(request, requester: requester)
+        let downalodTask = performDataTask(request, requester: downloadSession)
 
         downalodTask.failureHandler = {
             LogError("Fetch of image at URL \(url) failed")
@@ -217,7 +220,7 @@ extension ZiphyClient {
     }
 
     /// Performs a data task if the URL request is available, or calls the error otherwise.
-    fileprivate func performDataTask<T>(_ potentialRequest: Result<URLRequest, ZiphyError>, errorHandler: (Result<T, ZiphyError>) -> Void) -> URLRequestPromise? {
+    fileprivate func performDataTask<T>(_ potentialRequest: ZiphyResult<URLRequest, ZiphyError>, errorHandler: (ZiphyResult<T, ZiphyError>) -> Void) -> URLRequestPromise? {
         switch potentialRequest {
         case .failure(let error):
             errorHandler(.failure(error))

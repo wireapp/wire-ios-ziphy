@@ -64,21 +64,22 @@ class ZiphyPaginationController {
         return self.fetchBlock?(offset)
     }
     
-    func updatePagination(_ result: Result<[Ziph], ZiphyError>, filter: (Ziph) -> Bool) {
+    func updatePagination(_ result: ZiphyResult<[Ziph], ZiphyError>, filter: (Ziph) -> Bool) {
 
         switch result {
         case .success(let insertedZiphs):
             totalPagesFetched += 1
             ziphs.append(contentsOf: insertedZiphs.filter { filter($0) })
             offset = ziphs.count
+            self.updateBlock?(.success(ziphs))
 
         case .failure(let error):
             if case .noMorePages = error {
                 isAtEnd = true
             }
-        }
 
-        self.updateBlock?(result)
+            self.updateBlock?(.failure(error))
+        }
     }
 
 }
