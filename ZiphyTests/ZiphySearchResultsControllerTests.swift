@@ -154,6 +154,55 @@ class ZiphySearchResultsControllerTests: XCTestCase {
         XCTAssertEqual(data.prefix(6), Data([0x47, 0x49, 0x46, 0x38, 0x39, 0x61])) // GIF89a header
     }
 
+    func testThatItFetchesMoreSearchResults() {
+        // GIVEN
+        let ziphs = makeRandomZiphs(count: 10)
+        requester.response = .success(ziphs)
+
+        // WHEN
+        let fetchExpectation = expectation(description: "Initial trending images are fetched.")
+
+        _ = searchController.trending { result in
+            fetchExpectation.fulfill()
+        }
+
+        sendResponse(afterDelay: 1)
+        waitForExpectations(timeout: 5, handler: nil)
+
+        var fetchResult: ZiphyResult<[Ziph]>?
+        let nextFetchExpectation = expectation(description: "Next trending images are fetched.")
+
+        _ = searchController.fetchMoreResults { result in
+            fetchResult = result
+            nextFetchExpectation.fulfill()
+        }
+
+        sendResponse(afterDelay: 1)
+        waitForExpectations(timeout: 5, handler: nil)
+
+        // THEN
+
+        guard let result = fetchResult else {
+            XCTFail("No fetch result was provided.")
+            return
+        }
+
+        guard case let .success(fetchedZiphs) = result else {
+            XCTFail("An error was thrown: \(result.error)")
+            return
+        }
+
+        XCTAssertEqual(fetchedZiphs.count, 5)
+        XCTAssertEqual(searchController.paginationController?.offset, 10)
+
+        XCTAssertFalse(fetchedZiphs.contains(where: { $0.identifier == "4" }))
+        XCTAssertTrue(fetchedZiphs.contains(where: { $0.identifier == "5" }))
+        XCTAssertTrue(fetchedZiphs.contains(where: { $0.identifier == "6" }))
+        XCTAssertTrue(fetchedZiphs.contains(where: { $0.identifier == "7" }))
+        XCTAssertTrue(fetchedZiphs.contains(where: { $0.identifier == "8" }))
+        XCTAssertTrue(fetchedZiphs.contains(where: { $0.identifier == "9" }))
+    }
+
     // MARK: - Utilities
 
     private func makeRandomZiphs(count: Int) -> [Ziph] {
