@@ -189,19 +189,19 @@ extension ZiphyClient {
     public func fetchImageData(at url: URL, onCompletion: @escaping ZiphyImageDataCallback) -> CancelableTask? {
         let completionHandler = makeCompletionHandler(onCompletion)
         let request = URLRequest(url: url)
-        let downalodTask = performDataTask(request, requester: downloadSession)
+        let downloadTask = performDataTask(request, requester: downloadSession)
 
-        downalodTask.failureHandler = {
+        downloadTask.failureHandler = {
             LogError("Fetch of image at URL \(url) failed")
             completionHandler(.failure($0))
         }
 
-        downalodTask.successHandler = {
+        downloadTask.successHandler = {
             LogDebug("Fetch of image at URL \(url) succeeded")
             completionHandler(.success($0))
         }
 
-        return downalodTask
+        return downloadTask
     }
 
 }
