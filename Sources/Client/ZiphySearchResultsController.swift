@@ -47,6 +47,7 @@ public final class ZiphySearchResultsController {
     }
 
     /// Asks the pagination controller to fetch more results if possible.
+    /// The result block returns only the inserted images, not the current ones.
     public func fetchMoreResults(_ completion: @escaping ZiphyListRequestCallback) -> CancelableTask? {
         self.paginationController?.updateBlock = completion
         return self.paginationController?.fetchNewPage()
