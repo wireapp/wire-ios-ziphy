@@ -119,18 +119,6 @@ class URLRequestPromise: CancelableTask {
     }
 
     /**
-     * Rejects the promise because an error independent of the network request occured. This
-     * calls the `failureHandler` with the specified error, and cancels the network task.
-     *
-     * - parameter error: The external error that prevents the request to be made.
-     */
-
-    func reject(error: ZiphyError) {
-        failureHandler?(error)
-        cancel()
-    }
-
-    /**
      * Cancels the network request if possible.
      *
      * The network request will only be cancelled if you set the `requestIdentifier` property

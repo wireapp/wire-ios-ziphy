@@ -203,6 +203,30 @@ class ZiphySearchResultsControllerTests: XCTestCase {
         XCTAssertTrue(fetchedZiphs.contains(where: { $0.identifier == "9" }))
     }
 
+    func testThatItHandlesCancellation() {
+        // GIVEN
+        let ziphs = makeRandomZiphs(count: 10)
+        requester.response = .success(ziphs)
+
+        // WHEN
+        let fetchExpectation = expectation(description: "Initial search results are fetched.")
+        fetchExpectation.isInverted = true
+
+        var fetchResult: ZiphyResult<[Ziph]>?
+
+        let request = searchController.search(withTerm: "hello") { result in
+            fetchResult = result
+            fetchExpectation.fulfill()
+        }
+
+        request?.cancel()
+        sendResponse(afterDelay: 1)
+        waitForExpectations(timeout: 2, handler: nil)
+
+        // THEN
+        XCTAssertNil(fetchResult)
+    }
+
     // MARK: - Utilities
 
     private func makeRandomZiphs(count: Int) -> [Ziph] {
