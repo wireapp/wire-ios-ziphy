@@ -22,11 +22,11 @@ import Foundation
  * The result of an operation, either success or failure.
  */
 
-public enum ZiphyResult<T, E: Error> {
+public enum ZiphyResult<T> {
     case success(T)
-    case failure(E)
+    case failure(ZiphyError)
 
-    var error: E! {
+    var error: ZiphyError! {
         if case .failure(let error) = self {
             return error
         } else {

@@ -62,7 +62,7 @@ class ZiphyPaginationController {
         return self.fetchBlock?(offset)
     }
     
-    func updatePagination(_ result: ZiphyResult<[Ziph], ZiphyError>, filter: ((Ziph) -> Bool)?) {
+    func updatePagination(_ result: ZiphyResult<[Ziph]>, filter: ((Ziph) -> Bool)?) {
         switch result {
         case .success(let insertedZiphs):
             let newItems = insertedZiphs.filter { filter?($0) ?? true }

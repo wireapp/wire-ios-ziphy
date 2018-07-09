@@ -55,7 +55,7 @@ class ZiphyPaginationControllerTests: XCTestCase {
         paginationController.updatePagination(page1, filter: { _ in return true })
 
         // WHEN
-        var updateResult: ZiphyResult<[Ziph], ZiphyError>?
+        var updateResult: ZiphyResult<[Ziph]>?
         let updateExpectation = expectation(description: "The update block should be called.")
 
         paginationController.updateBlock = { result in
@@ -90,7 +90,7 @@ class ZiphyPaginationControllerTests: XCTestCase {
 
     func testThatItDetectsEnd() {
         // WHEN
-        var updateResult: ZiphyResult<[Ziph], ZiphyError>?
+        var updateResult: ZiphyResult<[Ziph]>?
         let updateExpectation = expectation(description: "The update block should be called.")
 
         paginationController.updateBlock = { result in
@@ -142,7 +142,7 @@ class ZiphyPaginationControllerTests: XCTestCase {
 
     // MARK: - Utilities
 
-    private func makePage1() -> ZiphyResult<[Ziph], ZiphyError> {
+    private func makePage1() -> ZiphyResult<[Ziph]> {
         let image1 = Ziph(identifier: "2WifJGUWMwGTdbcY15", images: ZiphyAnimatedImageList(images: [:]), title: "neil patrick harris")
         let image2 = Ziph(identifier: "8qFOTu7r79Bzt7zMfT", images: ZiphyAnimatedImageList(images: [:]), title: "tired monday GIF")
         let image3 = Ziph(identifier: "3oz8xEqn8AGAQbR0yY", images: ZiphyAnimatedImageList(images: [:]), title: "roxxxy andrews yes")
@@ -150,7 +150,7 @@ class ZiphyPaginationControllerTests: XCTestCase {
         return .success([image1, image2, image3])
     }
 
-    private func makePage2() -> ZiphyResult<[Ziph], ZiphyError> {
+    private func makePage2() -> ZiphyResult<[Ziph]> {
         let image1 = Ziph(identifier: "JzOyy8vKMCwvK", images: ZiphyAnimatedImageList(images: [:]), title: "judge judy bored over it")
         return .success([image1])
     }

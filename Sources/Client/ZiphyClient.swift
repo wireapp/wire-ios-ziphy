@@ -19,13 +19,13 @@
 import Foundation
 
 /// A block that will be executed with the result of a Ziph list fetch request.
-public typealias ZiphyListRequestCallback = (ZiphyResult<[Ziph], ZiphyError>) -> Void
+public typealias ZiphyListRequestCallback = (ZiphyResult<[Ziph]>) -> Void
 
 /// A block that will be executed with the result of a single Ziph lookup request.
-public typealias ZiphyLookupCallback = (ZiphyResult<Ziph, ZiphyError>) -> Void
+public typealias ZiphyLookupCallback = (ZiphyResult<Ziph>) -> Void
 
 /// A block that will be executed with the result of an image data fetch request.
-public typealias ZiphyImageDataCallback = (ZiphyResult<Data, ZiphyError>) -> Void
+public typealias ZiphyImageDataCallback = (ZiphyResult<Data>) -> Void
 
 /**
  * An object that provides access to the Giphy API.
@@ -115,7 +115,7 @@ extension ZiphyClient {
         return performPotentialZiphListRequest(request, isPaginated: false, onCompletion: onCompletion)
     }
     
-    private func performPotentialZiphListRequest(_ potentialRequest: ZiphyResult<URLRequest, ZiphyError>, isPaginated: Bool = true, onCompletion: @escaping ZiphyListRequestCallback) -> CancelableTask? {
+    private func performPotentialZiphListRequest(_ potentialRequest: ZiphyResult<URLRequest>, isPaginated: Bool = true, onCompletion: @escaping ZiphyListRequestCallback) -> CancelableTask? {
 
         let completionHandler = makeCompletionHandler(onCompletion)
         let listTask = performDataTask(potentialRequest, errorHandler: completionHandler)
@@ -220,7 +220,7 @@ extension ZiphyClient {
     }
 
     /// Performs a data task if the URL request is available, or calls the error otherwise.
-    fileprivate func performDataTask<T>(_ potentialRequest: ZiphyResult<URLRequest, ZiphyError>, errorHandler: (ZiphyResult<T, ZiphyError>) -> Void) -> URLRequestPromise? {
+    fileprivate func performDataTask<T>(_ potentialRequest: ZiphyResult<URLRequest>, errorHandler: (ZiphyResult<T>) -> Void) -> URLRequestPromise? {
         switch potentialRequest {
         case .failure(let error):
             errorHandler(.failure(error))
