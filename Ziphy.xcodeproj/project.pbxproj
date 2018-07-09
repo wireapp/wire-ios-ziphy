@@ -25,7 +25,6 @@
 		DB3A68591B18970F00900CF0 /* ZiphyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3A68581B18970F00900CF0 /* ZiphyUtils.swift */; };
 		DB61EEA01B3AFB00001F4851 /* ZiphyRequestGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB61EE9F1B3AFB00001F4851 /* ZiphyRequestGenerator.swift */; };
 		DB772FB61B67D3AC0037CCAA /* Ziph.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB772FB51B67D3AC0037CCAA /* Ziph.swift */; };
-		DBA7A1241B306144005BFF96 /* ZiphyLogging.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA7A1231B306144005BFF96 /* ZiphyLogging.swift */; };
 		DBCFF4FA1B6A93150019AEDC /* ZiphyPaginationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCFF4F91B6A93150019AEDC /* ZiphyPaginationController.swift */; };
 		DBF380651B15C0B800369FB7 /* Ziphy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBF380591B15C0B800369FB7 /* Ziphy.framework */; };
 		DBF380761B15C2D700369FB7 /* ZiphyClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF380751B15C2D700369FB7 /* ZiphyClient.swift */; };
@@ -80,7 +79,6 @@
 		DB3A68581B18970F00900CF0 /* ZiphyUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZiphyUtils.swift; sourceTree = "<group>"; };
 		DB61EE9F1B3AFB00001F4851 /* ZiphyRequestGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZiphyRequestGenerator.swift; sourceTree = "<group>"; };
 		DB772FB51B67D3AC0037CCAA /* Ziph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ziph.swift; sourceTree = "<group>"; };
-		DBA7A1231B306144005BFF96 /* ZiphyLogging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZiphyLogging.swift; sourceTree = "<group>"; };
 		DBCFF4F91B6A93150019AEDC /* ZiphyPaginationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZiphyPaginationController.swift; sourceTree = "<group>"; };
 		DBF380591B15C0B800369FB7 /* Ziphy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Ziphy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBF3805D1B15C0B800369FB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -202,7 +200,6 @@
 			isa = PBXGroup;
 			children = (
 				DB3A68581B18970F00900CF0 /* ZiphyUtils.swift */,
-				DBA7A1231B306144005BFF96 /* ZiphyLogging.swift */,
 				5EF5CDAF20EFD73500CC98B0 /* URLRequestPromise.swift */,
 			);
 			path = Utilities;
@@ -387,7 +384,6 @@
 				DB3A68571B18963600900CF0 /* ZiphyError.swift in Sources */,
 				DB772FB61B67D3AC0037CCAA /* Ziph.swift in Sources */,
 				5EF5CDB020EFD73500CC98B0 /* URLRequestPromise.swift in Sources */,
-				DBA7A1241B306144005BFF96 /* ZiphyLogging.swift in Sources */,
 				DB29C9A21B6BD4170072D14E /* ZiphySearchResultsController.swift in Sources */,
 				5EF5CDA020EF672600CC98B0 /* ZiphyEndpoint.swift in Sources */,
 				5EF5CDA320EF6B3400CC98B0 /* ZiphyResponse.swift in Sources */,

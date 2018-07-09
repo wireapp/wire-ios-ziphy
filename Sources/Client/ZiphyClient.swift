@@ -32,8 +32,6 @@ public typealias ZiphyImageDataCallback = (ZiphyResult<Data>) -> Void
  */
 
 public class ZiphyClient {
-    
-    public static var logLevel: ZiphyLogLevel = .error
 
     let host: String
     let requester: ZiphyURLRequester
@@ -192,12 +190,10 @@ extension ZiphyClient {
         let downloadTask = performDataTask(request, requester: downloadSession)
 
         downloadTask.failureHandler = {
-            LogError("Fetch of image at URL \(url) failed")
             completionHandler(.failure($0))
         }
 
         downloadTask.successHandler = {
-            LogDebug("Fetch of image at URL \(url) succeeded")
             completionHandler(.success($0))
         }
 
