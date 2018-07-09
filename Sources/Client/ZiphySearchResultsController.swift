@@ -29,7 +29,6 @@ public final class ZiphySearchResultsController {
     public let maxImageSize: Int
 
     fileprivate var paginationController: ZiphyPaginationController?
-    fileprivate let imageCache = NSCache<NSURL, NSData>()
 
     // MARK: - Initialization
 
@@ -45,7 +44,6 @@ public final class ZiphySearchResultsController {
         self.client = client
         self.pageSize = pageSize
         self.maxImageSize = maxImageSize * 1024 * 1024
-        self.imageCache.totalCostLimit = 1024 * 1024 * 10 // 10 MB
     }
 
     /// Asks the pagination controller to fetch more results if possible.
@@ -112,22 +110,7 @@ public final class ZiphySearchResultsController {
             return
         }
 
-        let imageURL = representation.url
-
-        if let cachedData = imageCache.object(forKey: imageURL as NSURL) as Data? {
-            self.client.callbackQueue.async { completion(.success(cachedData)) }
-            return
-        }
-
-        client.fetchImageData(at: imageURL) { [weak self] result in
-
-            if case let .success(data) = result {
-                self?.imageCache.setObject(data as NSData, forKey: imageURL as NSURL)
-            }
-
-            self?.client.callbackQueue.async { completion(result) }
-
-        }
+        client.fetchImageData(at: representation.url, onCompletion: completion)
     }
 
     // MARK: - Utilities
@@ -136,7 +119,7 @@ public final class ZiphySearchResultsController {
     fileprivate func updatePagination(_ result: ZiphyResult<[Ziph], ZiphyError>) {
         paginationController?.updatePagination(result, filter: {
             guard let size = $0.images[.downsized]?.fileSize else { return false }
-            return size.rawValue < maxImageSize
+            return size.rawValue < self.maxImageSize
         })
     }
 

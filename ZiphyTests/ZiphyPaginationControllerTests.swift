@@ -17,112 +17,142 @@
 // 
 
 import XCTest
-import Ziphy
+@testable import Ziphy
 
-class ZiphyPaginationControllerTests: ZiphyTestCase {
+class ZiphyPaginationControllerTests: XCTestCase {
 
-    var ziphyClient:ZiphyClient!
-    var paginationController:ZiphyPaginationController!
+    var paginationController: ZiphyPaginationController!
     
     override func setUp() {
         super.setUp()
-        
-        ZiphyClient.logLevel = ZiphyLogLevel.verbose
-        self.ziphyClient = ZiphyClient(host:"api.giphy.com", requester:self.defaultRequester)
-        self.paginationController = ZiphyPaginationController()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        paginationController = ZiphyPaginationController()
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        paginationController = nil
         super.tearDown()
     }
-    
-    func fetchBlockForSearch(_ paginationController:ZiphyPaginationController, searchTerm:String, resultsLimit:Int) -> FetchBlock {
-        
-        let fetchBlock:FetchBlock = { [weak paginationController, weak self](offset) in
-            
-            self?.ziphyClient.search(term: searchTerm, resultsLimit: resultsLimit, offset: offset, onCompletion: { (success, ziphs, error) -> () in
-                paginationController?.updatePagination(success, ziphs: ziphs, error: error)
-            })
-        }
-        
-        return fetchBlock
+
+    func testThatItUpdatesPaginationState() {
+        // GIVEN
+        let page1 = makePage1()
+
+        // WHEN
+        paginationController.updatePagination(page1, filter: { $0.title?.contains("GIF") == false })
+
+        // THEN
+        XCTAssertEqual(paginationController.offset, 2)
+        XCTAssertTrue(paginationController.ziphs.contains(where: { $0.identifier == "2WifJGUWMwGTdbcY15" }))
+        XCTAssertTrue(paginationController.ziphs.contains(where: { $0.identifier == "3oz8xEqn8AGAQbR0yY" }))
+        XCTAssertFalse(paginationController.ziphs.contains(where: { $0.identifier == "8qFOTu7r79Bzt7zMfT" }))
     }
 
-    func testThatFistPageIsFetched() {
-        // This is an example of a functional test case.
-        
-        let expectation = self.expectation(description: "That a page is fetched")
+    func testThatItReturnsOnlyNewItemsAfterAddedPaginationState() {
+        // GIVEN
+        let page1 = makePage1()
+        let page2 = makePage2()
 
-        let completionBlock:SuccessOrErrorCallback = { (success, ziphs, error) in
-            
-            expectation.fulfill()
-            
-            if (success) {
-                XCTAssertTrue(ziphs.count > 0 , "Paged fetched but no ziphs")
-            }
-            else {
-                
-                XCTFail(String(describing: error?.localizedDescription))
-            }
-        }
-        
-        self.paginationController.fetchBlock = self.fetchBlockForSearch(paginationController, searchTerm: "cat", resultsLimit: 25)
-        self.paginationController.completionBlock = completionBlock
-        
-        _ = self.paginationController.fetchNewPage()
-        
-        waitForExpectations(timeout: 10, handler:nil)
-    }
-    
-    func testThatSeveralPagesAreFetched() {
-        
-        let expectation = self.expectation(description: "That several pages are fetched")
-        
-        self.paginationController.fetchBlock = self.fetchBlockForSearch(self.paginationController, searchTerm: "cat", resultsLimit: 25)
-        self.paginationController.completionBlock = { [weak self](success, ziphs, error) in
-            
-            if (success && (self?.paginationController.totalPagesFetched)! < 3) {
-                _ = self?.paginationController.fetchNewPage()
-            }
-            else if (success && self?.paginationController.totalPagesFetched == 3) {
-                expectation.fulfill()
-                XCTAssertTrue(ziphs.count == 25*3, "Did not fetch enough gifs")
-            }
-            else {
-                expectation.fulfill()
-                XCTFail("Error fetching a page")
-            }
-        }
-        
-        _ = self.paginationController.fetchNewPage()
-        
-        waitForExpectations(timeout: 10, handler:nil)
-    }
-    
-    func testThatFechingEndsIfNoMorePages () {
-        
-        let expectation = self.expectation(description: "That several pages are fetched")
-        
-        self.paginationController.fetchBlock = self.fetchBlockForSearch(self.paginationController, searchTerm: "awg", resultsLimit: 10)
-        self.paginationController.completionBlock = { [weak self](success, ziphs, error) in
-            
-            if (success) {
-                _ = self?.paginationController.fetchNewPage()
-            }
-            else if (!success) {
-                expectation.fulfill()
+        paginationController.updatePagination(page1, filter: { _ in return true })
 
-                let isNoMorePagesError = (error as NSError?)?.code == ZiphyError.noMorePages.rawValue
-                
-                XCTAssertTrue(isNoMorePagesError, "Failed because of some other error")
-            }
+        // WHEN
+        var updateResult: ZiphyResult<[Ziph], ZiphyError>?
+        let updateExpectation = expectation(description: "The update block should be called.")
+
+        paginationController.updateBlock = { result in
+            updateResult = result
+            updateExpectation.fulfill()
         }
-        
-        _ = self.paginationController.fetchNewPage()
-        
-        waitForExpectations(timeout: 10, handler:nil)
-    
+
+        paginationController.updatePagination(page2, filter: nil)
+        waitForExpectations(timeout: 5, handler: nil)
+
+        // THEN
+
+        guard let result = updateResult else {
+            XCTFail("The update block was not called.")
+            return
+        }
+
+        guard case let .success(insertedZiphs) = result else {
+            XCTFail("The update returned an error: \(result.error)")
+            return
+        }
+
+        XCTAssertEqual(insertedZiphs.count, 1)
+        XCTAssertTrue(insertedZiphs.contains(where: { $0.identifier == "JzOyy8vKMCwvK" }))
+
+        XCTAssertEqual(paginationController.offset, 4)
+        XCTAssertTrue(paginationController.ziphs.contains(where: { $0.identifier == "2WifJGUWMwGTdbcY15" }))
+        XCTAssertTrue(paginationController.ziphs.contains(where: { $0.identifier == "3oz8xEqn8AGAQbR0yY" }))
+        XCTAssertTrue(paginationController.ziphs.contains(where: { $0.identifier == "8qFOTu7r79Bzt7zMfT" }))
+        XCTAssertTrue(paginationController.ziphs.contains(where: { $0.identifier == "JzOyy8vKMCwvK" }))
     }
+
+    func testThatItDetectsEnd() {
+        // WHEN
+        var updateResult: ZiphyResult<[Ziph], ZiphyError>?
+        let updateExpectation = expectation(description: "The update block should be called.")
+
+        paginationController.updateBlock = { result in
+            updateResult = result
+            updateExpectation.fulfill()
+        }
+
+        paginationController.updatePagination(.failure(.noMorePages), filter: nil)
+        waitForExpectations(timeout: 5, handler: nil)
+
+        // THEN
+
+        guard let result = updateResult else {
+            XCTFail("The update block was not called.")
+            return
+        }
+
+        guard case let .failure(updateError) = result else {
+            XCTFail("The update returned a value, but an error was expected.")
+            return
+        }
+
+        guard case .noMorePages = updateError else {
+            XCTFail("Expected 'noMorePages' error, but \(updateError) was returned.")
+            return
+        }
+
+        XCTAssertTrue(paginationController.isAtEnd)
+    }
+
+    func testThatItDoesNotCallFetchBlockWhenAtEnd() {
+        // GIVEN
+        paginationController.updatePagination(.failure(.noMorePages), filter: nil)
+
+        // WHEN
+        let noFetchExpectation = expectation(description: "The fetch block is not called.")
+        noFetchExpectation.isInverted = true
+
+        paginationController.fetchBlock = { _ in
+            noFetchExpectation.fulfill()
+            return nil
+        }
+
+        _ = paginationController.fetchNewPage()
+
+        // THEN
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+
+    // MARK: - Utilities
+
+    private func makePage1() -> ZiphyResult<[Ziph], ZiphyError> {
+        let image1 = Ziph(identifier: "2WifJGUWMwGTdbcY15", images: ZiphyAnimatedImageList(images: [:]), title: "neil patrick harris")
+        let image2 = Ziph(identifier: "8qFOTu7r79Bzt7zMfT", images: ZiphyAnimatedImageList(images: [:]), title: "tired monday GIF")
+        let image3 = Ziph(identifier: "3oz8xEqn8AGAQbR0yY", images: ZiphyAnimatedImageList(images: [:]), title: "roxxxy andrews yes")
+
+        return .success([image1, image2, image3])
+    }
+
+    private func makePage2() -> ZiphyResult<[Ziph], ZiphyError> {
+        let image1 = Ziph(identifier: "JzOyy8vKMCwvK", images: ZiphyAnimatedImageList(images: [:]), title: "judge judy bored over it")
+        return .success([image1])
+    }
+
 }

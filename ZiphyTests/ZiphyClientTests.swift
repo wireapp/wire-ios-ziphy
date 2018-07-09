@@ -27,7 +27,7 @@ class ZiphyClientTests: XCTestCase {
     override func setUp() {
         super.setUp()
         requester = MockZiphyRequester()
-        client = ZiphyClient(host: "localhost", requester: requester)
+        client = ZiphyClient(host: "localhost", requester: requester, downloadSession: requester)
     }
 
     override func tearDown() {

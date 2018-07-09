@@ -27,12 +27,11 @@ typealias ZiphyPaginatedFetchBlock = (_ offset: Int) -> CancelableTask?
 
 class ZiphyPaginationController {
 
-    fileprivate(set) var ziphs: [Ziph] = []
-    fileprivate (set) var totalPagesFetched = 0
-    fileprivate var offset = 0
+    private(set) var ziphs: [Ziph] = []
+    private (set) var offset = 0
 
     /// Whether the end of the list was reached.
-    fileprivate (set) var isAtEnd: Bool = false
+    private (set) var isAtEnd: Bool = false
 
     /// The block that fetches the paginated resource when needed.
     var fetchBlock: ZiphyPaginatedFetchBlock?
@@ -51,12 +50,11 @@ class ZiphyPaginationController {
     func clearResults() {
         self.offset = 0
         self.ziphs = []
-        self.totalPagesFetched = 0
     }
 
     // MARK: - Updating the Data
 
-    fileprivate func fetchNewPage(_ offset:Int) -> CancelableTask? {
+    private func fetchNewPage(_ offset:Int) -> CancelableTask? {
         guard !isAtEnd else {
             return nil
         }
@@ -64,14 +62,13 @@ class ZiphyPaginationController {
         return self.fetchBlock?(offset)
     }
     
-    func updatePagination(_ result: ZiphyResult<[Ziph], ZiphyError>, filter: (Ziph) -> Bool) {
-
+    func updatePagination(_ result: ZiphyResult<[Ziph], ZiphyError>, filter: ((Ziph) -> Bool)?) {
         switch result {
         case .success(let insertedZiphs):
-            totalPagesFetched += 1
-            ziphs.append(contentsOf: insertedZiphs.filter { filter($0) })
+            let newItems = insertedZiphs.filter { filter?($0) ?? true }
+            ziphs.append(contentsOf: newItems)
             offset = ziphs.count
-            self.updateBlock?(.success(ziphs))
+            self.updateBlock?(.success(newItems))
 
         case .failure(let error):
             if case .noMorePages = error {
