@@ -69,6 +69,71 @@ class ZiphyClientTests: XCTestCase {
         XCTAssertEqual(ziph.images.count, 11)
     }
 
+    func testThatItDecodesSearchList() {
+        // GIVEN
+        requester.response = makeSuccessResponse(forMockFile: "search_page1")
+
+        // WHEN
+        let fetchExpectation = expectation(description: "The resource can be fetched and decoded.")
+        var result: Result<[Ziph], ZiphyError>? = nil
+
+        client.search(term: "judge judy") {
+            result = $0
+            fetchExpectation.fulfill()
+        }
+
+        sendResponse(afterDelay: 1)
+        waitForExpectations(timeout: 5, handler: nil)
+
+        // THEN
+
+        guard let fetchResult = result else {
+            XCTFail("The client did not provide a result.")
+            return
+        }
+
+        guard case let .success(ziphs) = fetchResult else {
+            XCTFail("The client returned an error: \(fetchResult.error)")
+            return
+        }
+
+        XCTAssertEqual(ziphs.count, 25)
+    }
+
+    func testThatItDecodesSearchListEnd() {
+        // GIVEN
+        requester.response = makeSuccessResponse(forMockFile: "search_end")
+
+        // WHEN
+        let fetchExpectation = expectation(description: "The resource can be fetched and decoded.")
+        var result: Result<[Ziph], ZiphyError>? = nil
+
+        client.search(term: "judge judy") {
+            result = $0
+            fetchExpectation.fulfill()
+        }
+
+        sendResponse(afterDelay: 1)
+        waitForExpectations(timeout: 5, handler: nil)
+
+        // THEN
+
+        guard let fetchResult = result else {
+            XCTFail("The client did not provide a result.")
+            return
+        }
+
+        guard case let .failure(error) = fetchResult else {
+            XCTFail("The client returned elements, but the search is finished.")
+            return
+        }
+
+        guard case .noMorePages = error else {
+            XCTFail("Expecting 'noMorePages' error, but \(error) was returned.")
+            return
+        }
+    }
+
     // MARK: - Utilities
 
     private func makeSuccessResponse(forMockFile mockFile: String) -> MockZiphyResponse {

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E107A9920F3586A00EB9DE7 /* mock_search_page1.json in Resources */ = {isa = PBXBuildFile; fileRef = 5EF5CDC520F3580300CC98B0 /* mock_search_page1.json */; };
+		5E107A9B20F358C000EB9DE7 /* mock_search_end.json in Resources */ = {isa = PBXBuildFile; fileRef = 5E107A9A20F358C000EB9DE7 /* mock_search_end.json */; };
 		5EBC343320EE0F5D00AFB6DF /* ZiphyImageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBC343220EE0F5D00AFB6DF /* ZiphyImageType.swift */; };
 		5EF5CDA020EF672600CC98B0 /* ZiphyEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF5CD9F20EF672600CC98B0 /* ZiphyEndpoint.swift */; };
 		5EF5CDA320EF6B3400CC98B0 /* ZiphyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF5CDA220EF6B3400CC98B0 /* ZiphyResponse.swift */; };
@@ -58,6 +60,7 @@
 		54FB268A1D4669D0005574BF /* tests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = tests.xcconfig; sourceTree = "<group>"; };
 		54FB268B1D4669D0005574BF /* warnings-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "warnings-debug.xcconfig"; sourceTree = "<group>"; };
 		54FB268C1D4669D0005574BF /* warnings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = warnings.xcconfig; sourceTree = "<group>"; };
+		5E107A9A20F358C000EB9DE7 /* mock_search_end.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_search_end.json; sourceTree = "<group>"; };
 		5EBC343220EE0F5D00AFB6DF /* ZiphyImageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZiphyImageType.swift; sourceTree = "<group>"; };
 		5EF5CD9F20EF672600CC98B0 /* ZiphyEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZiphyEndpoint.swift; sourceTree = "<group>"; };
 		5EF5CDA220EF6B3400CC98B0 /* ZiphyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZiphyResponse.swift; sourceTree = "<group>"; };
@@ -68,6 +71,7 @@
 		5EF5CDBC20F2009400CC98B0 /* mock_single_gif.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_single_gif.json; sourceTree = "<group>"; };
 		5EF5CDBE20F3462D00CC98B0 /* ZiphyInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZiphyInt.swift; sourceTree = "<group>"; };
 		5EF5CDC320F3560300CC98B0 /* ZiphyAnimatedImageList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZiphyAnimatedImageList.swift; sourceTree = "<group>"; };
+		5EF5CDC520F3580300CC98B0 /* mock_search_page1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_search_page1.json; sourceTree = "<group>"; };
 		DB289BA21B6B78C000718F19 /* ZiphyPaginationControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZiphyPaginationControllerTests.swift; sourceTree = "<group>"; };
 		DB289BA41B6B78F900718F19 /* ZiphyTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZiphyTestCase.swift; sourceTree = "<group>"; };
 		DB29C9A11B6BD4170072D14E /* ZiphySearchResultsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZiphySearchResultsController.swift; sourceTree = "<group>"; };
@@ -188,6 +192,8 @@
 			isa = PBXGroup;
 			children = (
 				5EF5CDBC20F2009400CC98B0 /* mock_single_gif.json */,
+				5EF5CDC520F3580300CC98B0 /* mock_search_page1.json */,
+				5E107A9A20F358C000EB9DE7 /* mock_search_end.json */,
 			);
 			path = MockResponses;
 			sourceTree = "<group>";
@@ -361,7 +367,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E107A9920F3586A00EB9DE7 /* mock_search_page1.json in Resources */,
 				5EF5CDBD20F2009400CC98B0 /* mock_single_gif.json in Resources */,
+				5E107A9B20F358C000EB9DE7 /* mock_search_end.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

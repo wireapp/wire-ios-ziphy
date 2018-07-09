@@ -239,21 +239,22 @@ extension ZiphyClient {
 
     /// Decodes a paginated response.
     fileprivate func decodePaginatedResponse<ZiphyData>(_ data: Data) throws -> ZiphyData where ZiphyData: Decodable {
+        let response: ZiphyPaginatedResponse<ZiphyData>
+
         do {
-
             let decoder = JSONDecoder()
-            let response = try decoder.decode(ZiphyPaginatedResponse<ZiphyData>.self, from: data)
-            let pagination = response.pagination
-
-            if pagination.offset >= pagination.totalCount {
-                throw ZiphyError.noMorePages
-            }
-
-            return response.data
-
+            response = try decoder.decode(ZiphyPaginatedResponse<ZiphyData>.self, from: data)
         } catch {
             throw ZiphyError.jsonSerialization(error)
         }
+
+        let pagination = response.pagination
+
+        if pagination.offset >= pagination.totalCount {
+            throw ZiphyError.noMorePages
+        }
+
+        return response.data
     }
 
     /// Decodes a response for a single resource.
