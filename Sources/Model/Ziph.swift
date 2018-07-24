@@ -34,8 +34,10 @@ public struct Ziph: Codable {
             return image
         }
 
-        if let image = images[.original] {
-            return image
+        for imageType in ZiphyImageType.previewFallbackList {
+            if let image = images[imageType] {
+                return image
+            }
         }
 
         return nil
