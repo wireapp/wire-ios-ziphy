@@ -28,7 +28,7 @@ public struct Ziph: Codable {
     public let images: ZiphyAnimatedImageList
     public let title: String?
 
-    // Some zpih do not have preview-gif KVP, use original instead
+    // Some ziph do not have preview-gif KVP, use original instead
     public var previewImage: ZiphyAnimatedImage? {
         if let image = images[.preview] {
             return image
