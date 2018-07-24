@@ -39,17 +39,62 @@ final class ZiphTests: XCTestCase {
         XCTAssert(true, file: file, line: line)
     }
 
-    func testThatPreviewImageReturnsPreviewValue(){
+    func testThatPreviewImageReturnsPreviewValue() {
         // GIVEN
         let id = String(1)
         let url = URL(string: "http://localhost/media/image\(id).gif")!
         sut = ZiphHelper.createZiph(id: id, url: url)
 
-
-        // WHEN
-
-        // THEN
+        // WHEN & THEN
         let previewImage = sut.images[.preview]
         XCTAssertEqual(sut.previewImage?.description, previewImage?.description)
+    }
+
+    func testThatPreviewImageReturnsFallbackIfNoPreviewValue() {
+        // GIVEN
+        let id = String(1)
+        let url = URL(string: "http://localhost/media/image\(id).gif")!
+
+        let imagesList: [ZiphyImageType: ZiphyAnimatedImage] = [
+            .fixedWidthDownsampled: ZiphyAnimatedImage(url: url, width: 300, height: 200, fileSize: 204800),
+            .original: ZiphyAnimatedImage(url: url, width: 300, height: 200, fileSize: 2048000),
+            .downsized: ZiphyAnimatedImage(url: url, width: 300, height: 200, fileSize: 5000000),
+            ]
+
+        sut = ZiphHelper.createZiph(id: id, url: url, imagesList: imagesList)
+
+        // WHEN & THEN
+        let previewImage = sut.images[.fixedWidthDownsampled]
+        XCTAssertEqual(sut.previewImage?.description, previewImage?.description)
+    }
+
+    func testThatPreviewImageReturnsOriginalCase() {
+        // GIVEN
+        let id = String(1)
+        let url = URL(string: "http://localhost/media/image\(id).gif")!
+
+        let imagesList: [ZiphyImageType: ZiphyAnimatedImage] = [
+            .original: ZiphyAnimatedImage(url: url, width: 300, height: 200, fileSize: 2048000)
+        ]
+
+        sut = ZiphHelper.createZiph(id: id, url: url, imagesList: imagesList)
+
+        // WHEN & THEN
+        let previewImage = sut.images[.original]
+        XCTAssertEqual(sut.previewImage?.description, previewImage?.description)
+    }
+
+    func testThatPreviewImageReturnsNilCase() {
+        // GIVEN
+        let id = String(1)
+        let url = URL(string: "http://localhost/media/image\(id).gif")!
+
+        let imagesList: [ZiphyImageType: ZiphyAnimatedImage] = [:]
+
+        sut = ZiphHelper.createZiph(id: id, url: url, imagesList: imagesList)
+
+        // WHEN & THEN
+        let nilImage: ZiphyAnimatedImage? = nil
+        XCTAssertEqual(sut.previewImage?.description, nilImage?.description)
     }
 }

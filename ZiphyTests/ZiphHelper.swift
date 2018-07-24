@@ -28,6 +28,11 @@ final class ZiphHelper {
             .downsized: ZiphyAnimatedImage(url: url, width: 300, height: 200, fileSize: 5000000),
             ]
 
+        return createZiph(id: id, url: url, imagesList: imagesList)
+    }
+
+    class func createZiph(id: String, url: URL, imagesList: [ZiphyImageType: ZiphyAnimatedImage]) -> Ziph {
+
         let ziph = Ziph(identifier: id, images: ZiphyAnimatedImageList(images: imagesList), title: id)
 
         return ziph
