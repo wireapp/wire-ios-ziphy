@@ -50,3 +50,4 @@ FRAMEWORK_VERSION = A
 // Linking
 //
 OTHER_LDFLAGS = -ObjC
+MACH_O_TYPE = staticlib
