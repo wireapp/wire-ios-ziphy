@@ -61,7 +61,6 @@
 		54FB26861D4669D0005574BF /* project-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "project-debug.xcconfig"; sourceTree = "<group>"; };
 		54FB26871D4669D0005574BF /* project.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = project.xcconfig; sourceTree = "<group>"; };
 		54FB26881D4669D0005574BF /* simulator.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = simulator.xcconfig; sourceTree = "<group>"; };
-		54FB26891D4669D0005574BF /* swift.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = swift.xcconfig; sourceTree = "<group>"; };
 		54FB268A1D4669D0005574BF /* tests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = tests.xcconfig; sourceTree = "<group>"; };
 		54FB268B1D4669D0005574BF /* warnings-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "warnings-debug.xcconfig"; sourceTree = "<group>"; };
 		54FB268C1D4669D0005574BF /* warnings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = warnings.xcconfig; sourceTree = "<group>"; };
@@ -149,7 +148,6 @@
 				54FB26861D4669D0005574BF /* project-debug.xcconfig */,
 				54FB26871D4669D0005574BF /* project.xcconfig */,
 				54FB26881D4669D0005574BF /* simulator.xcconfig */,
-				54FB26891D4669D0005574BF /* swift.xcconfig */,
 				54FB268A1D4669D0005574BF /* tests.xcconfig */,
 				54FB268B1D4669D0005574BF /* warnings-debug.xcconfig */,
 				54FB268C1D4669D0005574BF /* warnings.xcconfig */,
@@ -344,11 +342,12 @@
 					};
 				};
 			};
-			buildConfigurationList = DBF380531B15C0B800369FB7 /* Build configuration list for PBXProject "Ziphy" */;
+			buildConfigurationList = DBF380531B15C0B800369FB7 /* Build configuration list for PBXProject "ziphy" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = DBF3804F1B15C0B800369FB7;
@@ -618,7 +617,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DBF380531B15C0B800369FB7 /* Build configuration list for PBXProject "Ziphy" */ = {
+		DBF380531B15C0B800369FB7 /* Build configuration list for PBXProject "ziphy" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DBF3806D1B15C0B800369FB7 /* Debug */,
