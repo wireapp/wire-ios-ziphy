@@ -85,8 +85,7 @@ public final class ZiphySearchResultsController {
                 return nil
             }
 
-            return self.client.fetchTrending(resultsLimit: self.pageSize, offset: offset) {
-                [weak self] result in
+            return self.client.fetchTrending(resultsLimit: self.pageSize, offset: offset) { [weak self] result in
                 self?.updatePagination(result)
             }
 
